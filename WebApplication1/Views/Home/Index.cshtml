@@ -1,0 +1,99 @@
+﻿@model IEnumerable<WebApplication1.Models.Bees>  
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+@{  
+    ViewData["Title"] = "Index";  
+}  
+  
+<h2>Index</h2>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var i=0;
+$('.menuHeader').each(function(){
+    i++;
+    var newID=''+i;
+    $(this).attr('id',newID);
+});
+ i=0;
+$('.ABC').each(function(){
+    i++;
+    var newID='ABC'+i;
+    $(this).attr('id',newID);
+});
+ i=0;
+$('.xyz').each(function(){
+    i++;
+    var newID='xyz'+i;
+    $(this).attr('id',newID);
+});
+ i=0;
+$('.typeofBee').each(function(){
+    i++;
+    var newID='typeofBee'+i;
+    $(this).attr('id',newID);
+});
+
+
+         });
+function SubmitClick(clicked_id) 
+{
+    debugger;
+    var s = $.trim($("#ABC"+clicked_id).val());
+             var x = $.trim($("#xyz"+clicked_id).text());
+              var v = $.trim($("#typeofBee"+clicked_id).text());
+	$.ajax({
+    url: '@Url.Action("Damage")',
+    type: 'POST',
+    data : {Health : x,Type: v,dead : s},
+    dataType: 'application/json', // ConentType that your are sending. No contentType needed if you just posting as query string parameters.
+    success: function(response){
+      alert(response);
+     
+     },
+    error: function(error){
+      console.log(error)
+       alert(error.responseText);
+     
+    }
+});
+
+}
+ </script>
+<table class="table">  
+    <thead>  
+        <tr>  
+                <th>  
+                    @Html.DisplayNameFor(model => model.Type)  
+                </th>  
+                <th>  
+                    @Html.DisplayNameFor(model => model.Dead))  
+                </th>  
+                <th>  
+                    @Html.DisplayNameFor(model => model.Health)  
+                </th>  
+                 
+            <th></th>  
+        </tr>  
+    </thead>  
+    <tbody>  
+@foreach (var item in Model) {  
+        <tr>  
+            <td class ="typeofBee" >  
+                @Html.DisplayFor(modelItem => item.Type)  
+            </td>  
+            <td class ="ABC">  
+                @Html.DisplayFor(modelItem => item.Dead)  
+            </td>  
+            <td class ="xyz">  
+                @Html.DisplayFor(modelItem => item.Health)  
+            </td>  
+             
+            <td> 
+                <input type="button" value="Damage" class="menuHeader" onclick="SubmitClick( this.id)"@* onclick="location.href='@Url.Action("Damage", "Home", new { id = item.Type })'"*@    @* id="@item.ClientID"*@/>  
+            
+            </td>  
+        </tr>  
+}  
+    </tbody>  
+</table> 
